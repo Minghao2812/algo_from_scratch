@@ -1,4 +1,5 @@
 """Locality Sensitive Hashing (LSH) for similarity search with Shingling & MinHash.
+This script has a credit for Mr. James Briggs' [tutorial](https://www.pinecone.io/learn/locality-sensitive-hashing/)
 """
 import random
 

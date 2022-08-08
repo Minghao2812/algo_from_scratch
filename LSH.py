@@ -7,12 +7,17 @@ class LSH:
     def __init__(self) -> None:
         pass
 
-    def create_vocab(self, *docs):
+    def create_vocab(self, *docs) -> 'set(str)':
         """Create vocab including all documents.
+
         Parameters
         ----------
         *args :
             Documents to make up the vocab.
+        
+        Return
+        ------
+        The vocab set.
         """
         self.vocab = set()
         for doc in docs:
@@ -20,7 +25,7 @@ class LSH:
         self.vocab_size = len(self.vocab)
         return self.vocab
 
-    def shingling(self, text: 'str', window: 'int' = 2):
+    def shingling(self, text: 'str', window: 'int' = 2) -> 'list(str)':
         """Split the text character by character with a fix window length.
         It's the same as n-gram.
 
@@ -30,6 +35,10 @@ class LSH:
             The text to be done with shingling.
         window :
             The shingling window size.
+        
+        Return
+        ------
+        The shingling list.
         """
         shingling = []
         for i in range(len(text) - window + 1):
@@ -38,6 +47,8 @@ class LSH:
 
     def onehot(self, doc: 'str'):
         """
+        Convert a doc to a one-hot vector.
+
         Parameters
         ----------
         vocab :
@@ -58,12 +69,17 @@ class LSH:
         return onehot
 
     def create_signature_idx(self, digit: 'int' = 20) -> 'list(list(int))':
-        """This function is a preparation step for the MinHash.
+        """Create digit-many lists. Those lists are shuffled integers from [0, ..., |V|-1]
+        This function is a preparation step for the MinHash.
 
         Parameters
         ----------
         digit :
             The digit (length) of the MinHash signature.
+        
+        Return
+        ------
+        A list of shuffled lists of signature indices.
         """
         sig_idx_list = []
         for _ in range(digit):
@@ -73,7 +89,7 @@ class LSH:
         return sig_idx_list
 
     def minhash(self, onehot, sig_idx_list: 'list(list(int))'):
-        """For each number in [0, ..., |V|], find it from a sub-list of sig_idx_list, and get its 'index', 
+        """For each number in [0, ..., |V|-1], find it from a sub-list of sig_idx_list, and get its 'index', 
         then look back to the one-hot vector. If the one-hot vector at that 'index' is 1, keep this 'index' 
         as a signature digit and continue. As for the next step of this iteration, use the next sub-list of 
         sig_idx_list.
@@ -90,12 +106,17 @@ class LSH:
 
     def banding(self, signature, k: 'int') -> 'list(list(int))':
         """Cut the signature vector into k pieces.
+
         Parameters
         ----------
         signature :
             The signature vector of a doc's one-hot vector.
         k :
             Number of pieces.
+
+        Return
+        ------
+        The cutted signature vector.
         """
         assert len(signature
                    ) % k == 0, 'Length of signature should be divisible by b!'

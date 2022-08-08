@@ -127,11 +127,6 @@ class LSH:
             banding.append(signature[i:i + window])
         return banding
 
-    # def jaccard(self, a, b):
-    #     a = set(a)
-    #     b = set(b)
-    #     return len(a.intersection(b)) / len(a.union(b))
-
     def compare(self, *bandings):
         for b1, b2 in zip(*bandings):
             if b1 == b2:
@@ -141,6 +136,7 @@ class LSH:
 
 
 if __name__ == '__main__':
+    # Test
     text1 = """You are not smart."""
     text2 = """You are not very smart."""
     text3 = """You are stupid."""
